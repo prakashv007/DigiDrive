@@ -16,9 +16,10 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const user = await login(empId, password);
+            const user = await login(empId.toUpperCase(), password);
             toast.success(`Welcome back, ${user.name}!`);
             navigate(user.role === 'admin' ? '/admin' : '/dashboard');
+
         } catch (err) {
             toast.error(err.response?.data?.message || err.message || 'Login failed');
         } finally {
@@ -60,10 +61,11 @@ const Login = () => {
                                         className="login-input"
                                         placeholder="e.g. EMP001"
                                         value={empId}
-                                        onChange={(e) => setEmpId(e.target.value.toUpperCase())}
+                                        onChange={(e) => setEmpId(e.target.value)}
                                         required
                                         autoFocus
                                     />
+
                                     <div className="login-input-icon">
                                         <User size={22} />
                                     </div>
