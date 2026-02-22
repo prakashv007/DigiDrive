@@ -2027,8 +2027,12 @@ select.input-field option {
    font-weight: 500;
    color: var(--text-primary);
    transition: var(--transition);
+}
+
+.login-input-id {
    text-transform: uppercase;
 }
+
 
 
 .login-input:focus {

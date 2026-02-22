@@ -58,13 +58,14 @@ const Login = () => {
                                 <div style={{ position: 'relative' }}>
                                     <input
                                         type="text"
-                                        className="login-input"
+                                        className="login-input login-input-id"
                                         placeholder="e.g. EMP001"
                                         value={empId}
                                         onChange={(e) => setEmpId(e.target.value)}
                                         required
                                         autoFocus
                                     />
+
 
                                     <div className="login-input-icon">
                                         <User size={22} />
