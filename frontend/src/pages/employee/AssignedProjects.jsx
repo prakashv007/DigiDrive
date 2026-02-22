@@ -274,7 +274,11 @@ const AssignedProjects = () => {
                                                     <td style={{ textAlign: 'center' }}>
                                                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                                                             <button
-                                                                onClick={() => window.open(`http://localhost:5000/api/files/${file._id}?download=true&token=${localStorage.getItem('sentinel_token')}`)}
+                                                                onClick={() => {
+                                                                    const token = localStorage.getItem('sentinel_token');
+                                                                    const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+                                                                    window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
+                                                                }}
                                                                 className="btn btn-ghost btn-icon btn-sm"
                                                                 title="Download"
                                                             >

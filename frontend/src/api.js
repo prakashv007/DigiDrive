@@ -9,6 +9,7 @@ const API = axios.create({
 API.interceptors.request.use((config) => {
     const token = localStorage.getItem('sentinel_token');
     if (token) config.headers.Authorization = `Bearer ${token}`;
+    console.log(`[API Request] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
 });
 

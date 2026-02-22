@@ -38,7 +38,8 @@ const PreviewModal = ({ file, onClose }) => {
     const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(file.extension?.toLowerCase());
     const isVideo = ['mp4', 'avi', 'mov', 'webm'].includes(file.extension?.toLowerCase());
     const isPDF = file.extension?.toLowerCase() === 'pdf';
-    const previewUrl = `http://localhost:5000/api/files/${file._id}?download=false&token=${localStorage.getItem('sentinel_token')}`;
+    const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+    const previewUrl = `${apiBase}/files/${file._id}?download=false&token=${localStorage.getItem('sentinel_token')}`;
 
     return (
         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
@@ -54,14 +55,17 @@ const PreviewModal = ({ file, onClose }) => {
                     <button onClick={onClose} className="btn btn-ghost btn-icon">✕</button>
                 </div>
                 <div className="modal-body" style={{ padding: '20px' }}>
-                    {isImage && <img src={`http://localhost:5000/api/files/${file._id}`} alt={file.originalName} style={{ width: '100%', height: 'auto', borderRadius: '10px', maxHeight: '60vh', objectFit: 'contain' }} onError={e => e.target.src = ''} />}
-                    {isVideo && <video controls style={{ width: '100%', borderRadius: '10px' }} src={`http://localhost:5000/api/files/${file._id}`} />}
-                    {isPDF && <iframe src={`http://localhost:5000/api/files/${file._id}`} style={{ width: '100%', height: '60vh', border: 'none', borderRadius: '10px' }} />}
+                    {isImage && <img src={`${apiBase}/files/${file._id}`} alt={file.originalName} style={{ width: '100%', height: 'auto', borderRadius: '10px', maxHeight: '60vh', objectFit: 'contain' }} onError={e => e.target.src = ''} />}
+                    {isVideo && <video controls style={{ width: '100%', borderRadius: '10px' }} src={`${apiBase}/files/${file._id}`} />}
+                    {isPDF && <iframe src={`${apiBase}/files/${file._id}`} title="PDF Preview" style={{ width: '100%', height: '60vh', border: 'none', borderRadius: '10px' }} />}
                     {!isImage && !isVideo && !isPDF && (
                         <div className="flex-center" style={{ height: '200px', flexDirection: 'column', gap: '16px' }}>
                             <span style={{ fontSize: '64px' }}>{getIcon(file.extension)}</span>
                             <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Preview not available for this file type</p>
-                            <button className="btn btn-primary btn-sm" onClick={() => { const token = localStorage.getItem('sentinel_token'); window.open(`http://localhost:5000/api/files/${file._id}?download=true&token=${token}`, '_blank'); }}>
+                            <button className="btn btn-primary btn-sm" onClick={() => {
+                                const token = localStorage.getItem('sentinel_token');
+                                window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
+                            }}>
                                 <Download size={14} /> Download to View
                             </button>
                         </div>
@@ -295,7 +299,8 @@ const FileExplorer = ({ privateMode = false }) => {
     const downloadFile = (file, e) => {
         e.stopPropagation();
         const token = localStorage.getItem('sentinel_token');
-        window.open(`http://localhost:5000/api/files/${file._id}?download=true&token=${token}`, '_blank');
+        const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+        window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
     };
 
     return (

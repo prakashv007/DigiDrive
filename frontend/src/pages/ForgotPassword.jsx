@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, ArrowRight, ArrowLeft, KeyRound, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import API from '../api';
+
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -16,12 +18,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/auth/forgot-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-            });
-            const data = await res.json();
+            const { data } = await API.post('/auth/forgot-password', { email });
             if (data.success) {
                 toast.success('OTP sent to your email!');
                 setStep(2);
@@ -30,7 +27,7 @@ const ForgotPassword = () => {
             }
         } catch (error) {
             console.error('Forgot Password Error:', error);
-            toast.error(error.message || 'Something went wrong. Please try again.');
+            toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -44,12 +41,7 @@ const ForgotPassword = () => {
         }
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/auth/reset-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, otp, password }),
-            });
-            const data = await res.json();
+            const { data } = await API.post('/auth/reset-password', { email, otp, password });
             if (data.success) {
                 toast.success('Password reset successfully! Please login.');
                 navigate('/login');
@@ -57,7 +49,7 @@ const ForgotPassword = () => {
                 toast.error(data.message || 'Failed to reset password');
             }
         } catch (error) {
-            toast.error('Something went wrong. Please try again.');
+            toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
         } finally {
             setLoading(false);
         }
