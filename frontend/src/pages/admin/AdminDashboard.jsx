@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import { LayoutDashboard, Users, FolderOpen, Activity, FileText, Briefcase, Shield } from 'lucide-react';
+import { LayoutDashboard, Users, FolderOpen, Activity, FileText, Briefcase, Shield, Menu } from 'lucide-react';
 import Sidebar from '../../components/Sidebar';
 import AdminOverview from './AdminOverview';
 import UserManagement from './UserManagement';
@@ -45,6 +45,7 @@ const TOUR_STEPS = [
 
 const AdminDashboard = () => {
     const [showTour, setShowTour] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         const seen = localStorage.getItem('sentinel_admin_tour');
@@ -53,9 +54,26 @@ const AdminDashboard = () => {
 
     return (
         <div className="app-layout">
-            <Sidebar navItems={ADMIN_NAV} onTourStart={() => setShowTour(true)} />
+            <Sidebar
+                navItems={ADMIN_NAV}
+                onTourStart={() => setShowTour(true)}
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+            />
 
             <main className="main-content">
+                <div className="mobile-header mobile-only">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ width: '32px', height: '32px', background: '#fff', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px' }}>
+                            <img src="/logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                        </div>
+                        <span style={{ fontWeight: '800', fontSize: '18px', color: 'var(--accent-blue-light)' }}>DigiDrive</span>
+                    </div>
+                    <button onClick={() => setSidebarOpen(true)} className="btn btn-ghost btn-sm" style={{ padding: '8px' }}>
+                        <Menu size={24} />
+                    </button>
+                </div>
+
                 <Routes>
                     <Route index element={<Navigate to="overview" replace />} />
                     <Route path="overview" element={<AdminOverview />} />

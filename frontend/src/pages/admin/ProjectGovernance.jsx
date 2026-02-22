@@ -294,64 +294,66 @@ const ProjectGovernance = () => {
                                 No files uploaded to this project yet.
                             </div>
                         ) : (
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Size</th>
-                                        <th>Type</th>
-                                        <th>Uploaded By</th>
-                                        <th>Date</th>
-                                        <th style={{ textAlign: 'right' }}>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {projectFiles.map(file => (
-                                        <tr key={file._id}>
-                                            <td style={{ fontWeight: '500' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                    <span style={{ fontSize: '16px' }}>{getIcon(file.extension)}</span>
-                                                    {file.originalName}
-                                                </div>
-                                            </td>
-                                            <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>{(file.size / 1024).toFixed(1)} KB</td>
-                                            <td><span className="badge badge-gray">{file.extension}</span></td>
-                                            <td>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#3b82f6', color: '#fff', fontSize: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700' }}>
-                                                        {file.owner?.name?.charAt(0) || '?'}
-                                                    </div>
-                                                    <span style={{ fontSize: '13px' }}>{file.owner?.name || 'Unknown'}</span>
-                                                </div>
-                                            </td>
-                                            <td style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{format(new Date(file.createdAt), 'MMM d, p')}</td>
-                                            <td style={{ textAlign: 'right' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                                                    <button
-                                                        onClick={() => {
-                                                            const token = localStorage.getItem('sentinel_token');
-                                                            const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
-                                                            window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
-                                                        }}
-                                                        className="btn btn-ghost btn-icon btn-sm"
-                                                        title="Download"
-                                                    >
-                                                        <Download size={15} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteFile(file._id)}
-                                                        className="btn btn-ghost btn-icon btn-sm"
-                                                        style={{ color: '#ef4444' }}
-                                                        title="Delete"
-                                                    >
-                                                        <Trash2 size={15} />
-                                                    </button>
-                                                </div>
-                                            </td>
+                            <div className="table-wrapper">
+                                <table className="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Size</th>
+                                            <th>Type</th>
+                                            <th>Uploaded By</th>
+                                            <th>Date</th>
+                                            <th style={{ textAlign: 'right' }}>Actions</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {projectFiles.map(file => (
+                                            <tr key={file._id}>
+                                                <td style={{ fontWeight: '500' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <span style={{ fontSize: '16px' }}>{getIcon(file.extension)}</span>
+                                                        {file.originalName}
+                                                    </div>
+                                                </td>
+                                                <td style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>{(file.size / 1024).toFixed(1)} KB</td>
+                                                <td><span className="badge badge-gray">{file.extension}</span></td>
+                                                <td>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#3b82f6', color: '#fff', fontSize: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700' }}>
+                                                            {file.owner?.name?.charAt(0) || '?'}
+                                                        </div>
+                                                        <span style={{ fontSize: '13px' }}>{file.owner?.name || 'Unknown'}</span>
+                                                    </div>
+                                                </td>
+                                                <td style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{format(new Date(file.createdAt), 'MMM d, p')}</td>
+                                                <td style={{ textAlign: 'right' }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                                                        <button
+                                                            onClick={() => {
+                                                                const token = localStorage.getItem('sentinel_token');
+                                                                const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+                                                                window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
+                                                            }}
+                                                            className="btn btn-ghost btn-icon btn-sm"
+                                                            title="Download"
+                                                        >
+                                                            <Download size={15} />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteFile(file._id)}
+                                                            className="btn btn-ghost btn-icon btn-sm"
+                                                            style={{ color: '#ef4444' }}
+                                                            title="Delete"
+                                                        >
+                                                            <Trash2 size={15} />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         )}
                     </div>
                 </div>

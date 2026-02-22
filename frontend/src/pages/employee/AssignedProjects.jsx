@@ -244,72 +244,75 @@ const AssignedProjects = () => {
                             ) : projectFiles.length === 0 ? (
                                 <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)' }}>No files in this project yet.</div>
                             ) : (
-                                <table className="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Size</th>
-                                            <th>Type</th>
-                                            <th>Uploaded</th>
-                                            {!isProjectExpired && <th style={{ textAlign: 'center' }}>Action</th>}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {projectFiles.map(file => (
-                                            <tr key={file._id}>
-                                                <td style={{ fontWeight: '600', fontSize: '13px' }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                        <span style={{ fontSize: '18px' }}>{getIcon(file.extension)}</span>
-                                                        <span title={file.originalName}>{file.originalName}</span>
-                                                    </div>
-                                                </td>
-                                                <td style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                                                    {formatBytes(file.size)}
-                                                </td>
-                                                <td><span className="badge badge-gray" style={{ textTransform: 'uppercase', fontSize: '10px' }}>{file.extension}</span></td>
-                                                <td style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                                                    {format(new Date(file.createdAt), 'MMM d, yyyy')}
-                                                </td>
-                                                {!isProjectExpired && (
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                                                            <button
-                                                                onClick={() => {
-                                                                    const token = localStorage.getItem('sentinel_token');
-                                                                    const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
-                                                                    window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
-                                                                }}
-                                                                className="btn btn-ghost btn-icon btn-sm"
-                                                                title="Download"
-                                                            >
-                                                                <Download size={14} />
-                                                            </button>
-                                                            {user?.role === 'admin' && (
-                                                                <button
-                                                                    onClick={async () => {
-                                                                        if (window.confirm('Delete this file?')) {
-                                                                            try {
-                                                                                await fileAPI.deleteFile(file._id);
-                                                                                toast.success('File deleted');
-                                                                                loadProjectFiles(selectedProject);
-                                                                            } catch { toast.error('Failed to delete'); }
-                                                                        }
-                                                                    }}
-                                                                    className="btn btn-ghost btn-icon btn-sm"
-                                                                    style={{ color: '#ef4444' }}
-                                                                    title="Delete"
-                                                                >
-                                                                    <Trash2 size={14} />
-                                                                </button>
-                                                            )}
+                                <div className="table-wrapper">
+                                    <table className="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Size</th>
+                                                <th>Type</th>
+                                                <th>Uploaded</th>
+                                                {!isProjectExpired && <th style={{ textAlign: 'center' }}>Action</th>}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {projectFiles.map(file => (
+                                                <tr key={file._id}>
+                                                    <td style={{ fontWeight: '600', fontSize: '13px' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                            <span style={{ fontSize: '18px' }}>{getIcon(file.extension)}</span>
+                                                            <span title={file.originalName}>{file.originalName}</span>
                                                         </div>
                                                     </td>
-                                                )}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                                    <td style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                                                        {formatBytes(file.size)}
+                                                    </td>
+                                                    <td><span className="badge badge-gray" style={{ textTransform: 'uppercase', fontSize: '10px' }}>{file.extension}</span></td>
+                                                    <td style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                                                        {format(new Date(file.createdAt), 'MMM d, yyyy')}
+                                                    </td>
+                                                    {!isProjectExpired && (
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        const token = localStorage.getItem('sentinel_token');
+                                                                        const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+                                                                        window.open(`${apiBase}/files/${file._id}?download=true&token=${token}`, '_blank');
+                                                                    }}
+                                                                    className="btn btn-ghost btn-icon btn-sm"
+                                                                    title="Download"
+                                                                >
+                                                                    <Download size={14} />
+                                                                </button>
+                                                                {user?.role === 'admin' && (
+                                                                    <button
+                                                                        onClick={async () => {
+                                                                            if (window.confirm('Delete this file?')) {
+                                                                                try {
+                                                                                    await fileAPI.deleteFile(file._id);
+                                                                                    toast.success('File deleted');
+                                                                                    loadProjectFiles(selectedProject);
+                                                                                } catch { toast.error('Failed to delete'); }
+                                                                            }
+                                                                        }}
+                                                                        className="btn btn-ghost btn-icon btn-sm"
+                                                                        style={{ color: '#ef4444' }}
+                                                                        title="Delete"
+                                                                    >
+                                                                        <Trash2 size={14} />
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                    )}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             )}
+
                         </div>
                     </div>
                 </div>

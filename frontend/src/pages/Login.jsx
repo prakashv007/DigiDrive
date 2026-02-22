@@ -32,10 +32,10 @@ const Login = () => {
                 {/* LEFT SIDE - BRANDING */}
                 <div className="login-branding">
                     <div className="login-logo-box">
-                        <img src="/logo.png" alt="DigiDrive logo" style={{ width: '70px', height: '70px', objectFit: 'contain' }} />
+                        <img src="/logo.png" alt="DigiDrive logo" />
                     </div>
                     <h1>DigiDrive</h1>
-                    <p style={{ marginTop: '20px', fontSize: '16px', opacity: 0.8, maxWidth: '280px', textAlign: 'center', lineHeight: '1.6', fontWeight: '500' }}>
+                    <p>
                         Secure Enterprise Asset Management
                     </p>
                 </div>
@@ -44,13 +44,14 @@ const Login = () => {
                 <div className="login-form-side">
                     <div className="login-form-container">
                         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-                            <h2 style={{ fontSize: '32px', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '8px' }}>Sign In</h2>
+                            <h2 className="login-form-title">Sign In</h2>
                         </div>
+
 
                         <form onSubmit={handleSubmit}>
                             {/* EMPLOYEE ID */}
                             <div className="login-input-group">
-                                <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text-secondary)', marginBottom: '8px', display: 'block', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                <label className="login-label">
                                     Employee ID
                                 </label>
                                 <div style={{ position: 'relative' }}>
@@ -71,7 +72,7 @@ const Login = () => {
 
                             {/* PASSWORD */}
                             <div className="login-input-group">
-                                <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text-secondary)', marginBottom: '8px', display: 'block', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                <label className="login-label">
                                     Password
                                 </label>
                                 <div style={{ position: 'relative' }}>
@@ -101,16 +102,25 @@ const Login = () => {
                                 className="login-submit-btn"
                                 disabled={loading}
                             >
-                                {loading ? <div className="spinner-sm" /> : <> <Zap size={20} fill="currentColor" /> Sign In </>}
+                                {loading ? (
+                                    <>
+                                        <div className="spinner-sm" />
+                                        <span>Signing In...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Zap size={20} fill="currentColor" />
+                                        <span>Sign In</span>
+                                    </>
+                                )}
                             </button>
                         </form>
 
-                        <div style={{ marginTop: '32px', textAlign: 'center' }}>
-                            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                                Authorized Personnel Only
-                            </p>
+                        <div className="login-footer-text">
+                            <p>Authorized Personnel Only</p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

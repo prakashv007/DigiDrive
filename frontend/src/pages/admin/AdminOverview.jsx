@@ -53,7 +53,7 @@ const AdminOverview = () => {
                     <h1 className="premium-title">System Overview</h1>
                     <p className="premium-subtitle">Real-time enterprise analytics for DigiDrive</p>
                 </div>
-                <div style={{ textAlign: 'right' }}>
+                <div className="header-date-group" style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text-primary)' }}>{format(new Date(), 'EEEE')}</div>
                     <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{format(new Date(), 'PPpp')}</div>
                 </div>

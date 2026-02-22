@@ -54,7 +54,7 @@ const EmployeeOverview = () => {
                     <h1 className="premium-title">Asset Manager</h1>
                     <p className="premium-subtitle">Welcome back, {user?.name?.split(' ')[0]}! 👋</p>
                 </div>
-                <div style={{ textAlign: 'right' }}>
+                <div className="header-date-group" style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text-primary)' }}>{format(new Date(), 'EEEE')}</div>
                     <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{format(new Date(), 'MMMM d, yyyy')}</div>
                 </div>
